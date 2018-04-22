@@ -50,7 +50,7 @@ public:
 class savings : public BankAccount {
 private:
 	int minimum_balance = 200;
-	int withdraw_limit;
+	int withdraw_limit = 1000;
 
 public:
 
@@ -95,6 +95,7 @@ int main() {
 	bool keepAlive = true;
 	char userInput;
 	char saveOrCheck;
+	int amount;
 
 	while (keepAlive == true) {
 		cout << endl << "Welcome to 'Not-A-Scam' bank!" << endl << "Menu: " << endl << "Create account (a)" << endl << "Deposit to account (d)" << endl << "Withdraw from account (w)" << endl << "Print totals (p)" << endl << "Show this menu again (m)" << endl << "Exit the program (x)" << endl << "Please make a selection: ";
@@ -128,8 +129,62 @@ int main() {
 			}
 			break;
 		case 'd':
+			cout << "Deposit into checking (c) or savings (s) account?: ";
+			cin >> saveOrCheck;
+			if (saveOrCheck == 'c') {
+				if (C.accountCreated == false) {
+					cout << "You don't have a checking account." << endl;
+				}
+				else {
+					cout << "Deposit how much? ";
+					cin >> amount;
+					C.deposit(amount);
+					cout << "You now have " << C.balance << " dollars in this account." << endl;
+				}
+			}
+			else if (saveOrCheck == 's') {
+				if (S.accountCreated == false) {
+					cout << "You don't have a savings account." << endl;
+				}
+				else {
+					cout << "Deposit how much? ";
+					cin >> amount;
+					S.deposit(amount);
+					cout << "You now have " << S.balance << " dollars in this account." << endl;
+				}
+			}
+			else {
+				cout << "Sorry, I didn't get that." << endl;
+			}
 			break;
 		case 'w':
+			cout << "Withdraw from checking (c) or savings (s) account?: ";
+			cin >> saveOrCheck;
+			if (saveOrCheck == 'c') {
+				if (C.accountCreated == false) {
+					cout << "You don't have a checking account." << endl;
+				}
+				else {
+					cout << "Withdraw how much? ";
+					cin >> amount;
+					C.withdraw(amount);
+					cout << "You now have " << C.balance << " dollars in this account." << endl;
+				}
+			}
+			else if (saveOrCheck == 's') {
+				if (S.accountCreated == false) {
+					cout << "You don't have a savings account." << endl;
+				}
+				else {
+					cout << "Withdraw how much? ";
+					cin >> amount;
+					S.withdraw(amount);
+					cout << "You now have " << S.balance << " dollars in this account." << endl;
+				}
+			}
+			else {
+				cout << "Sorry, I didn't get that." << endl;
+			}
 			break;
 		case 'p':
 			if (C.accountCreated == false) {
