@@ -39,7 +39,7 @@ public:
 	}
 	void print() {
 		cout << "Account number: " << acct_number << endl;
-		cout << "ACcount name: " << name << endl;
+		cout << "Account name: " << name << endl;
 		cout << "Phone: " << phone << endl;
 		cout << "Balance: " << balance << endl;
 		cout << "Rate: " << rate << endl << endl;
@@ -48,12 +48,10 @@ public:
 };
 
 class savings : public BankAccount {
-private:
-	int minimum_balance = 200;
-	int withdraw_limit = 1000;
-
 public:
 
+	int minimum_balance = 200;
+	int withdraw_limit = 1000;
 	bool CheckUnderMin() {
 		if (balance < minimum_balance) {
 			return true;
@@ -63,14 +61,14 @@ public:
 		}
 	}
 
-	//bool overLimit() {
-	//	if (BankAccount.withdraw > withdraw_limit) {
-	//		return true;
-	//	}
-	//	else {
-	//		return false;
-	//	}
-	//}
+	bool overLimit(int y) {
+		if (y > withdraw_limit) {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
 };
 
 class checking : public BankAccount {
@@ -98,7 +96,7 @@ int main() {
 	int amount;
 
 	while (keepAlive == true) {
-		cout << endl << "Welcome to 'Not-A-Scam' bank!" << endl << "Menu: " << endl << "Create account (a)" << endl << "Deposit to account (d)" << endl << "Withdraw from account (w)" << endl << "Print totals (p)" << endl << "Show this menu again (m)" << endl << "Exit the program (x)" << endl << "Please make a selection: ";
+		cout << endl << "Welcome to 'Not-A-Scam' bank!" << endl << "Menu: " << endl << "Account creation (a)" << endl << "Deposit to account (d)" << endl << "Withdraw from account (w)" << endl << "Print totals (p)" << endl << "Show this menu again (m)" << endl << "Exit the program (x)" << endl << "Please make a selection: ";
 		cin >> userInput;
 		cout << endl;
 		switch (userInput) {
@@ -139,7 +137,7 @@ int main() {
 					cout << "Deposit how much? ";
 					cin >> amount;
 					C.deposit(amount);
-					cout << "You now have " << C.balance << " dollars in this account." << endl;
+					cout << "You now have $" << C.balance << " in this account." << endl;
 				}
 			}
 			else if (saveOrCheck == 's') {
@@ -150,7 +148,7 @@ int main() {
 					cout << "Deposit how much? ";
 					cin >> amount;
 					S.deposit(amount);
-					cout << "You now have " << S.balance << " dollars in this account." << endl;
+					cout << "You now have $" << S.balance << " in this account." << endl;
 				}
 			}
 			else {
@@ -168,9 +166,14 @@ int main() {
 					cout << "Withdraw how much? ";
 					cin >> amount;
 					C.withdraw(amount);
-					cout << "You now have " << C.balance << " dollars in this account." << endl;
+					cout << "You now have $" << C.balance << " in this account." << endl;
+					if (C.checkOverdraft()) {
+						C.balance -= C.overdraft_fee;
+						cout << "You have overdrafted your account. A $20 overdraft fee is applied. You now have $" << C.balance << " in this account." << endl;
+					}
+
+					}
 				}
-			}
 			else if (saveOrCheck == 's') {
 				if (S.accountCreated == false) {
 					cout << "You don't have a savings account." << endl;
@@ -179,7 +182,15 @@ int main() {
 					cout << "Withdraw how much? ";
 					cin >> amount;
 					S.withdraw(amount);
-					cout << "You now have " << S.balance << " dollars in this account." << endl;
+					if (S.CheckUnderMin()) {
+						cout << "You can't withdraw your savings account to have less than $" << S.minimum_balance << endl;
+						S.deposit(amount);
+					}
+					if (S.overLimit(amount)) {
+						cout << "You can't withdraw more than $" << S.withdraw_limit << " from your savings at once." << endl;
+						S.deposit(amount);
+					}
+					cout << "You now have $" << S.balance << " in this account." << endl;
 				}
 			}
 			else {
