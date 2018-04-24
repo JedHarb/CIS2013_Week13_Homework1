@@ -1,4 +1,4 @@
-#include <iostream> //mish mash of code from my other quiz program and copying notes from class. Dont expect this to work at all.
+#include <iostream>
 #include <string>
 using namespace std;
 int number = 100;
